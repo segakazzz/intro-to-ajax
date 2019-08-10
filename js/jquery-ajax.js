@@ -72,6 +72,23 @@
 
   // TODO: your code goes here :)
 
+  $('#generateDoggoBtn').on('click', function(){
+    console.log('clicked button.')
+    let $button = $(this)
+    $button.text('Generating Doggo …').attr('disabled', true)
+    $.ajax('https://dog.ceo/api/breeds/image/random', {
+      success: function(data){
+        console.log(data)
+        //$(this).attr('disabled', false)
+        $('#doggoContainer').css('margin', '10px').html('<img src="' + data.message + '">')
+        $button.text('Generate Doggo').attr('disabled', false)
+      },
+      error: function(error){
+        console.log(error)
+      }
+    })
+  })
+
   //
   // Cool. Now let's kick it up a notch and allow selecting a specific breed of dog!
   //

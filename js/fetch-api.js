@@ -92,6 +92,46 @@
   //
 
   // TODO: your code goes here :)
+  let generateCatBtn = document.querySelector('#generateCatBtn')
+  let container = document.querySelector('#catContainer')
+  generateCatBtn.addEventListener('click', loadCatImages)
+  
+
+  function loadCatImages(event){
+      generateCatBtn.disabled = true
+      generateCatBtn.innerHTML = "Generating Cat..."
+      //console.log(event)
+      fetch('https://api.thecatapi.com/v1/images/search?size=full&mime_types=jpg&format=json&has_breeds=1&order=RANDOM&page=0&limit=100',{
+          // method: "GET", // *GET, POST, PUT, DELETE, etc.
+          // mode: "cors", // no-cors, cors, *same-origin
+          // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          // credentials: "include", // include, same-origin, *omit
+          headers: {
+              // "Content-Type": "application/json; charset=utf-8",
+              // "x-api-key": "e7c85698-6087-46c6-bd44-3d03f24fe5a7"
+          }
+      })
+      .then(extractJson)
+      .then(function(data){
+        let images = data.map(function(element){
+          //console.log(element.url)
+          return `<img src="${element.url}" style="width: 300px; margin: 10px">`
+        })
+        container.innerHTML = images.join('')
+        let imgs = document.querySelectorAll('img')
+        console.dir(imgs)
+        console.log(imgs.forEach(function(img){
+          return img.complete
+        }))
+        generateCatBtn.disabled = false
+        generateCatBtn.innerHTML = "Generate Cat"  
+      })
+  }
+
+  function extractJson (response) {
+    console.log('The AJAX request finished. I am the callback from the first Promise object.')
+    return response.json() // <-- returns a new Promise object
+  }
 
   //
   // What else can you build with your new AJAX knowledge?
