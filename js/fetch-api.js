@@ -100,6 +100,7 @@
   function loadCatImages(event){
       generateCatBtn.disabled = true
       generateCatBtn.innerHTML = "Generating Cat..."
+      let count = 0
       //console.log(event)
       fetch('https://api.thecatapi.com/v1/images/search?size=full&mime_types=jpg&format=json&has_breeds=1&order=RANDOM&page=0&limit=100',{
           // method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -119,12 +120,17 @@
         })
         container.innerHTML = images.join('')
         let imgs = document.querySelectorAll('img')
-        console.dir(imgs)
-        console.log(imgs.forEach(function(img){
-          return img.complete
-        }))
-        generateCatBtn.disabled = false
-        generateCatBtn.innerHTML = "Generate Cat"  
+        imgs.forEach(function(img){
+          img.addEventListener('load', function(){
+              count++
+              if (count === imgs.length){
+                console.log('All cats are loaded....')
+                generateCatBtn.disabled = false
+                generateCatBtn.innerHTML = "Generate Cat"  
+              }
+          })
+        })
+
       })
   }
 
