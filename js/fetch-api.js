@@ -135,6 +135,7 @@
   }
 
   function extractJson (response) {
+    console.log(response)
     console.log('The AJAX request finished. I am the callback from the first Promise object.')
     return response.json() // <-- returns a new Promise object
   }
