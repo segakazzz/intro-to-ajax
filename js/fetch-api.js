@@ -112,13 +112,24 @@
       imgElements.forEach(function(imgElement){
         promiseArray.push(imageLoaded(imgElement))
       }) 
-      Promise.all(promiseArray)
+
+      const handlePromises = () => Promise.all(promiseArray)
+      const timeout = (ms) => {
+        return new Promise(function(resolveFn, rejectFn){
+          setTimeout(function(){
+            rejectFn('Timeout! ' + ms + 'ms')
+          }, ms)  
+        })
+      }
+
+      Promise.race([handlePromises(), timeout(10000)])
       .then(function(responseArray){
         console.log(responseArray)
         console.log('All cats are loaded....')
         generateCatBtn.disabled = false
         generateCatBtn.innerHTML = "Generate Cat"  
       }).catch(function(error){
+        container.innerHTML = ''
         console.log(error)
       })
     })
