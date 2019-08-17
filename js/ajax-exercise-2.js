@@ -4,7 +4,7 @@ console.assert(selection, 'selection is not found')
 console.assert(displayArea2, 'displayArea2 is not found')
 
 window.addEventListener('load', function(){
-    console.log('page is loaded....')
+    //console.log('page is loaded....')
     axios.get('https://dog.ceo/api/breeds/list')
     .then(res => {
         if (res.status === 200){
@@ -21,7 +21,7 @@ window.addEventListener('load', function(){
 })
 
 selection.addEventListener('change', function(){
-    console.log('selection changed...', selection.value)
+    //console.log('selection changed...', selection.value)
     while (displayArea2.firstChild) {
         displayArea2.removeChild(displayArea2.firstChild);
     }
@@ -31,9 +31,9 @@ selection.addEventListener('change', function(){
             if(res.status === 200){
                 console.log(res)
                 return res.data
-            } else {
-    
-            }
+            } 
+            throw new Error('Connection error')
+            
         }).then(json => {
             let imgHtml = `<img src="${json.message}" >`
             let img = document.createElement("img")
@@ -43,6 +43,8 @@ selection.addEventListener('change', function(){
             displayArea2.style.padding = "10px 0px"
             displayArea2.style.width = "500px"
             console.log(json.message)
+        }).catch(e => {
+            console.log(e)
         })
     } 
 })

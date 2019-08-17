@@ -8,7 +8,7 @@ button.addEventListener('click', function(){
     axios.get('https://dog.ceo/api/breeds/image/random')
     .then(res => {
         if(res.status === 200){
-            console.log(res)
+            //console.log(res)
             return res.data
         } else {
 
@@ -24,7 +24,7 @@ button.addEventListener('click', function(){
         displayArea.appendChild(img)
         displayArea.style.padding = "10px 0px"
         displayArea.style.width = "500px"
-        console.log(json.message)
+        //console.log(json.message)
     })
-    console.log('clicked')
+    //console.log('clicked')
 })

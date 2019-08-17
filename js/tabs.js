@@ -41,7 +41,7 @@ if (!String.prototype.includes) {
   const loadedViaFile = window.location.protocol.includes('file')
 
   function isValidHash (hash) {
-    return hash === '#basic' || hash === '#jquery' || hash === '#fetch' || hash === '#ajaxExercise1' || hash === '#ajaxExercise2'
+    return hash === '#basic' || hash === '#jquery' || hash === '#fetch' || hash === '#ajaxExercise1' || hash === '#ajaxExercise2' || hash === '#promiseExercise'
   }
 
   function showSection (sectionHash) {
