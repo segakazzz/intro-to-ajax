@@ -94,8 +94,44 @@
   // TODO: your code goes here :)
   let generateCatBtn = document.querySelector('#generateCatBtn')
   let container = document.querySelector('#catContainer')
-  generateCatBtn.addEventListener('click', loadCatImages)
+  generateCatBtn.addEventListener('click', loadCatImagesWithPromise)
   
+  function loadCatImagesWithPromise(event){
+    generateCatBtn.disabled = true
+    generateCatBtn.innerHTML = "Generating Cat..."
+
+    fetch('https://api.thecatapi.com/v1/images/search?size=full&mime_types=jpg&format=json&has_breeds=1&order=RANDOM&page=0&limit=100')
+    .then(extractJson)
+    .then(function(data){
+      const allCatImages = data.map(function(img){
+        return `<img src="${img.url}" id="${img.id}" style="width: 300px; margin: 10px">`
+      })
+      container.innerHTML = allCatImages.join('')
+      const imgElements = document.querySelectorAll('img')
+      const promiseArray = []
+      imgElements.forEach(function(imgElement){
+        promiseArray.push(imageLoaded(imgElement))
+      }) 
+      Promise.all(promiseArray)
+      .then(function(responseArray){
+        console.log(responseArray)
+        console.log('All cats are loaded....')
+        generateCatBtn.disabled = false
+        generateCatBtn.innerHTML = "Generate Cat"  
+      }).catch(function(error){
+        console.log(error)
+      })
+    })
+  }
+
+  function imageLoaded(imgElement){
+    return new Promise(function(resolveFn, rejectFn){
+      imgElement.addEventListener('load', function(){
+        resolveFn(imgElement.id)
+      })
+    })
+  }
+
 
   function loadCatImages(event){
       generateCatBtn.disabled = true
@@ -130,7 +166,6 @@
               }
           })
         })
-
       })
   }
 
